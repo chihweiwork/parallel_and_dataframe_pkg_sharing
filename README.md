@@ -541,7 +541,7 @@ def polars_join_test() -> None:
 
 #### polars 與 spark 無縫接軌
 
-polars 官方並沒有提供從 spark dataframe 轉到 polars dataframe 的工具，但 spark 可以使用 Apache Arrow 而 polars 使用 Apache Arrow Columnar Format as the memory model，所以可以簡單透過 pyarrow 來將 spark dataframe 轉換成 polars dataframe
+polars 官方並沒有提供從 spark dataframe 轉到 polars dataframe 的工具，但 spark 可以使用 Apache Arrow 而 polars 使用 Apache Arrow Columnar Format as the memory model，所以可以簡單透過 pyarrow 來將 spark dataframe 轉換成 polars dataframe
 
 ```python
 import pyarrow as pa
@@ -633,7 +633,7 @@ def to_polars(data):
   
   設定 cpu 資源，memory 使用量 ...
 
-- koalas 的 join，除了可以使用 pandas 原先的 join 方式，也可以使用 spark sql 的方式，可以讓會使用 sql 的開發人員，使用
+- koalas 的 join，除了可以使用 pandas 原先的 join 方式，也可以使用 spark sql 的方式
 
 - polars 是一個相當強大的工具，如果程式需要在本機使用 dataframe 可以透過 polars 來加速程式的運算
 
