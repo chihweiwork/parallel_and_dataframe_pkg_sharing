@@ -619,11 +619,11 @@ def to_polars(data):
 
 ##### 測試結果
 
-| 筆數                          | to pandas | to polars |
+| 筆數                        | to pandas | to polars |
 | --------------------------- | --------- | --------- |
 | 1,000,000 row x 20 columns  | 2.92 sec  | 1.51 sec  |
 | 10,000,000 row x 20 columns | 14.86 sec | 12.91 sec |
-| 50,000,000 row x 20 columns | 60.75 sec | 65.71 sec |
+| 50,000,000 row x 20 columns | 65.71 sec | 60.75 sec |
 
 #### 小結
 
