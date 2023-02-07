@@ -61,7 +61,7 @@ import pdb
 import prometheus_api_client as prom_client
 import datetime, argparse, time
 
-from tools import timeit, datetime_range_day, mutiple_thread, mutiple_process, init_folder
+from tools import timeit, datetime_range_day, multiple_thread, multiple_process, init_folder
 
 import pandas as pd
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
 前文的例子是使用一個 for loop 去迭代出下載所需的資訊，並且一個一個的把資料下載下來，是屬於 single core single thread 的計算
 
-#### 單核心多線程 muti-threading
+#### 單核心多線程 multi-threading
 
 ```python
 import pdb
@@ -124,7 +124,7 @@ import pdb
 import prometheus_api_client as prom_client
 import datetime, argparse, time
 
-from tools import timeit, datetime_range_day, mutiple_thread, mutiple_process, init_folder
+from tools import timeit, datetime_range_day, multiple_thread, multiple_process, init_folder
 
 import pandas as pd
 
@@ -135,7 +135,7 @@ def download_input_generator(metrics, stime, etime):
             sd, ed = d, d + datetime.timedelta(days=1)
             yield {"qstring":qstring, "metric":metric,"start_time":sd, "end_time":ed}
 @timeit
-@mutiple_thread
+@multiple_thread
 def get_prometheus_data(target: dict) -> None:
     data = PROM.get_metric_range_data(
         target["qstring"],
@@ -174,17 +174,17 @@ if __name__ == "__main__":
   
   - timeit: 計算函數所的持續運算時間
   
-  - mutiple_thread: 將程式變成 muti-threading 的裝飾器
+  - multiple_thread: 將程式變成 multi-threading 的裝飾器
 
 - `__main__` 中的 for loop 被改成:
   `get_prometheus_data(download_input_generator(metrics, stime, etime))`
 
 觀察兩者的差別後可以發現，使用 decorator 可以在最小程度的改動程式邏輯的情況下，達成程式平行計算的效果
 
-##### decorator - mutiple_thread
+##### decorator - multiple_thread
 
 ```python
-def mutiple_thread(func):
+def multiple_thread(func):
     """
     定義裝飾器，使用簡單的語法糖來達成平行多線程運算的能力
     參考文件:https://medium.com/analytics-vidhya/python-decorator-to-parallelize- any-function-23e5036fb6a
@@ -212,7 +212,7 @@ def mutiple_thread(func):
     return wrapper
 ```
 
-### 多核心 muti-processing
+### 多核心 multi-processing
 
 ```python
 import pdb
@@ -220,7 +220,7 @@ import pdb
 import prometheus_api_client as prom_client
 import datetime, argparse, time
 
-from tools import timeit, datetime_range_day, mutiple_thread, mutiple_process, init_folder
+from tools import timeit, datetime_range_day, multiple_thread, multiple_process, init_folder
 
 import pandas as pd
 
@@ -249,8 +249,8 @@ def get_prometheus_data(target: dict) -> None:
     metric_df.to_csv(file_name, index=False)
 
 @timeit
-@mutiple_process(get_prometheus_data)
-def mutiple_process_get_data(target: dict) -> None:
+@multiple_process(get_prometheus_data)
+def multiple_process_get_data(target: dict) -> None:
     return get_prometheus_data(target)
 
 if __name__ == "__main__":
@@ -263,12 +263,12 @@ if __name__ == "__main__":
         "node_memory_Active_bytes", "node_memory_Cached_bytes"
     ]
 
-    mutiple_process_get_data(download_input_generator(metrics, stime, etime))
+    multiple_process_get_data(download_input_generator(metrics, stime, etime))
 ```
 
-muti-processing 的狀況會比 muti-threading 複雜一點，為了使用 decorator 實現 muti-processing 必須使用 decorator fectory 的概念，具體的改動為：
+multi-processing 的狀況會比 multi-threading 複雜一點，為了使用 decorator 實現 multi-processing 必須使用 decorator fectory 的概念，具體的改動為：
 
-- 增加 function `mutiple_process_get_data` 目的為 :
+- 增加 function `multiple_process_get_data` 目的為 :
   
   1. 讓 `__main__` 呼叫使用
   
@@ -278,10 +278,10 @@ muti-processing 的狀況會比 muti-threading 複雜一點，為了使用 decor
 
 若不使用 decorator fectory 會出現 `_pickle.PicklingError` 的錯誤，詳細原因，請參考**參考文章 2** 
 
-##### decorator - mutiple_process
+##### decorator - multiple_process
 
 ```python
-def mutiple_process(multiprocess_func):
+def multiple_process(multiprocess_func):
     """
     定義裝飾器，使用簡單的語法糖來達成平行多核心運算的能力
     參考文件:https://stackoverflow.com/questions/63473520/cannot-use- processpoolexecutor-if-in-a-decorator
@@ -355,7 +355,7 @@ pandas is the de facto standard (single-node) DataFrame implementation in Python
 | groupby (sec) | 71.64   | 79.62  | 23.14  |
 | join (sec)    | 20.80   | 46.65  | 22.87  |
 
-根據上表，Polars 雖然是 single process muti-thread 但意外的在 groupby 與 join 上表現得不錯，以下來比較三個工具，在不同測試項目中，程式碼的差別
+根據上表，Polars 雖然是 single process multi-thread 但意外的在 groupby 與 join 上表現得不錯，以下來比較三個工具，在不同測試項目中，程式碼的差別
 
 #### apply
 

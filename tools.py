@@ -28,7 +28,7 @@ def datetime_range_day(stime, etime):
         yield stime + datetime.timedelta(days=n)
     
 
-def mutiple_thread(func):
+def multiple_thread(func):
     """
     定義裝飾器，使用簡單的語法糖來達成平行多線程運算的能力
     參考文件:https://medium.com/analytics-vidhya/python-decorator-to-parallelize- any-function-23e5036fb6a
@@ -55,7 +55,7 @@ def mutiple_thread(func):
         return result
     return wrapper
 
-def mutiple_process(multiprocess_func):
+def multiple_process(multiprocess_func):
     """
     定義裝飾器，使用簡單的語法糖來達成平行多核心運算的能力
     參考文件:https://stackoverflow.com/questions/63473520/cannot-use- processpoolexecutor-if-in-a-decorator

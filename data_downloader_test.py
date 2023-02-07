@@ -3,7 +3,7 @@ import pdb
 import prometheus_api_client as prom_client
 import datetime, argparse, time
 
-from tools import timeit, datetime_range_day, mutiple_thread, mutiple_process, init_folder
+from tools import timeit, datetime_range_day, multiple_thread, multiple_process, init_folder
 
 import pandas as pd
 
@@ -16,7 +16,7 @@ def download_input_generator(metrics, stime, etime):
             yield {"qstring":qstring, "metric":metric,"start_time":sd, "end_time":ed}
 
 @timeit
-@mutiple_thread
+@multiple_thread
 def get_prometheus_data(target: dict) -> None:
     print(f"starting download  metric: {target['metric']}, date from {target['start_time']} to {target['end_time']}")
     data = PROM.get_metric_range_data(
@@ -39,8 +39,8 @@ def get_prometheus_data(target: dict) -> None:
     print(f"finish write {file_name} !!!")
 
 @timeit
-@mutiple_process(get_prometheus_data)
-def mutiple_process_get_data(target: dict) -> None:
+@multiple_process(get_prometheus_data)
+def multiple_process_get_data(target: dict) -> None:
     return get_prometheus_data(target)
 
 
@@ -57,14 +57,14 @@ if __name__ == "__main__":
     ]
 
     """
-    # muti-threading
+    # multi-threading
     get_prometheus_data(download_input_generator(metrics, stime, etime))
     """
 
     """
-    # muti-processing
+    # multi-processing
     # 想要測試時，須先把 download_input_generator 的 decorator 拿掉
-    mutiple_process_get_data(download_input_generator(metrics, stime, etime))
+    multiple_process_get_data(download_input_generator(metrics, stime, etime))
     """
 
     """
