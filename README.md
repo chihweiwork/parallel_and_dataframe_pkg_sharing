@@ -560,7 +560,7 @@ def to_polars(data:pyspark.sql.dataframe.DataFrame) -> polars.internals.datafram
 > 
 > python requirment
 > 
-> pyarrow==6.01
+> pyarrow==6.0.1
 > 
 > pandas==1.1.5
 > 
