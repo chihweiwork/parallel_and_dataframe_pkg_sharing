@@ -168,7 +168,7 @@ if __name__ == "__main__":
     
 ```
 
-前問的範例，與 Single process 的 code 做比較，可以發現，自定義的函數都沒有改變，有變的地方只有
+與 Single process 的例子做比較，可以發現，自定義的函數都沒有改變，有變的地方只有：
 
 - function: `get_prometheus_data` 多了兩個裝飾器 (decorator) 分別為
   
@@ -179,7 +179,7 @@ if __name__ == "__main__":
 - `__main__` 中的 for loop 被改成:
   `get_prometheus_data(download_input_generator(metrics, stime, etime))`
 
-觀察兩者的差別後可以發現，使用 decorator 可以在最小程度的改動程式邏輯的情況下，達成程式平行計算的效果
+觀察兩者的差別後可以發現，使用 decorator 可以在最小程度的改動下，達成程式平行計算的效果
 
 ##### decorator - multiple_thread
 
@@ -306,7 +306,7 @@ def multiple_process(multiprocess_func):
 
 ### 小結
 
-- 使用 Decorator 在保留原先的程式邏輯，並且增加新的功能
+- 使用 Decorator 可以保留原先的程式邏輯，並且增加新的功能
 
 - Decorator 具有很好的重複使用性
 
