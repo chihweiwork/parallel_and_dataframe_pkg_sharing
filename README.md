@@ -108,7 +108,7 @@ if __name__ == "__main__":
     print(f"{end_time-start_time:2f} seconds")
 ```
 
-以下載資料的程式為例，前文的範例中，是利用 `prometheus_api_client` 下載 prometheus 中 `metrics` 從 2023-01-01 到 2023-01-04 的資料。
+以下載資料的程式為例，前文的範例中，是利用 `prometheus_api_client` 下載 prometheus 中 `metrics` 從 2023-01-01 到 2023-01-24 的資料。
 
 - `download_input_generator` 是一個 generator 負責迭代出下載資料的資訊，如 start/end time、metric name 與 query string
 
